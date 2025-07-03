@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="src/css/style.css">
+  <script src="src/js/script.js" defer></script>
+  <title>Client Form UI</title>
+</head>
+<body>
+  <form action="">
+    <label for="name">Name:<br>
+      <input type="text" id="name" placeholder="Your Name">
+    </label><br><br>
+    <label for="email">Email:<br>
+      <input id="email"type="text" placeholder="Your Email">
+    </label><br><br>
+    <label for="message">Message:<br>
+      <textarea id="message">
+
+      </textarea>
+    </label><br><br>
+    <button id="submitBtn">Submit</button>
+    <div id="submitMsg">
+      <p id="loadingMsg" class="hidden">Loading...</p>
+      <p id="successMsg" class="hidden">Thank you for your message!</p>
+      <p id="failedMsg" class="hidden">Please fill in all fields</p>
+    </div>
+  </form>
+  <ul id="clientList">
+
+  </ul>
+  
+</body>
+</html>
