@@ -23,10 +23,11 @@ submitBtn.addEventListener('click', e => {
   if([user.name,user.email,user.message].every(field => field.length > 0)){
     showLoadingMsg();
     showSuccessMsg();
-    
+    clearInputs();
   } else{
     showLoadingMsg();
     showFailedMsg();
+    clearInputs();
   }
 })
 
@@ -42,4 +43,10 @@ const showSuccessMsg = () => {
 
 const showFailedMsg = () => {
   failedMsg.classList.remove('hidden');
+}
+
+const clearInputs = () => {
+    nameInput.value = "";
+    emailInput.value = "";
+    messageInput.value = "";
 }
