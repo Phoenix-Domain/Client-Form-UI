@@ -35,6 +35,7 @@ submitBtn.addEventListener('click', e => {
     addUsers(user);
     saveUser(user);
     clearInput(user);
+    autoHideMsg()
 
   } else{
     showFailedMsg();
@@ -42,15 +43,15 @@ submitBtn.addEventListener('click', e => {
 })
 
 const showLoadingMsg = () => {
-  loadingMsg.classList.toggle('hidden');
+  loadingMsg.classList.remove('hidden');
 }
 
 const showSuccessMsg = () => {
-  successMsg.classList.toggle('hidden');
+  successMsg.classList.remove('hidden');
 }
 
 const showFailedMsg = () => {
-  failedMsg.classList.toggle('hidden');
+  failedMsg.classList.remove('hidden');
 }
 
 const addUsers = item => {
@@ -73,4 +74,12 @@ const saveUser = item => {
 
 const getUser = () => {
   return JSON.parse(localStorage.getItem('client'));
+}
+
+const autoHideMsg = () => {
+  setTimeout(() => {
+    loadingMsg.classList.add('hidden');
+    successMsg.classList.add('hidden');
+    failedMsg.classList.add('hidden');
+  }, 3000)
 }
