@@ -1,47 +1,48 @@
-function User(name,email,message){
+function User(name,email,msg){
   this.name = name;
   this.email = email;
-  this.message = message;
+  this.msg = msg;
 }
 
 const nameInput = document.querySelector('#name');
 const emailInput = document.querySelector('#email');
-const messageInput = document.querySelector('#message');
+const msgInput = document.querySelector('#msg');
 const submitBtn = document.querySelector('#submitBtn');
-const clientList = document.querySelector('#clientList');
 const loadingMsg = document.querySelector('#loadingMsg');
 const successMsg = document.querySelector('#successMsg');
 const failedMsg = document.querySelector('#failedMsg');
+const users = document.querySelector('#userList');
 
 window.addEventListener('DOMContentLoaded', () => {
-  const savedUsers = getInfo();
-  if (savedUsers){
-    savedUsers.forEach(x =>  {showClientFeedback(x);})
+  const currentUsers = getUser();
+  if(currentUsers){
+    currentUsers.forEach(x => {
+      addUsers(x);
+    })
   }
-})
+});
 
 submitBtn.addEventListener('click', e => {
   e.preventDefault();
   const name = nameInput.value.trim();
   const email = emailInput.value.trim();
-  const message = messageInput.value.trim();
-  const user = new User(name,email,message);
-  if([user.name,user.email,user.message].every(field => field.length > 0)){
+  const msg = msgInput.value.trim();
+  
+  const user = new User(name,email,msg);
+  if ([user.name,user.email,user.msg].every(x => x.length > 0)){
     showLoadingMsg();
     showSuccessMsg();
-    clearInputs();
-    showClientFeedback(user);
-    saveInfo(user);
+    addUsers(user);
+    saveUser(user);
+    clearInput(user);
+
   } else{
-    showLoadingMsg();
     showFailedMsg();
-    clearInputs();
   }
 })
 
-
 const showLoadingMsg = () => {
-  loadingMsg.classList.remove('hidden');
+  loadingMsg.classList.toggle('hidden');
 }
 
 const showSuccessMsg = () => {
@@ -49,29 +50,27 @@ const showSuccessMsg = () => {
 }
 
 const showFailedMsg = () => {
-  failedMsg.classList.remove('hidden');
+  failedMsg.classList.toggle('hidden');
 }
 
-const clearInputs = () => {
-    nameInput.value = "";
-    emailInput.value = "";
-    messageInput.value = "";
+const addUsers = item => {
+  const userList = document.createElement('li');
+  userList.textContent = `Congratulations ${item.name}, your message has been submitted.`;
+  users.append(userList);
 }
 
-const showClientFeedback = item => {
-  let clientInfo = document.createElement('li');
-  clientInfo.textContent = `Name: ${item.name}, Email: ${item.email}, Message: ${item.message}`;
-  clientList.append(clientInfo);
+const clearInput = item => {
+  nameInput.value = "";
+  emailInput.value ="";
+  msgInput.value = ""
 }
 
-const saveInfo = item => {
-  const existing = getInfo() || [];
-  existing.push(item);
+const saveUser = item => {
+  const existing = getUser() || [];
+  existing.push(item)
   localStorage.setItem('client', JSON.stringify(existing))
 }
 
-function getInfo(){
+const getUser = () => {
   return JSON.parse(localStorage.getItem('client'));
 }
-
-
