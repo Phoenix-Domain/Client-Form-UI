@@ -13,6 +13,12 @@ const loadingMsg = document.querySelector('#loadingMsg');
 const successMsg = document.querySelector('#successMsg');
 const failedMsg = document.querySelector('#failedMsg');
 
+window.addEventListener('DOMContentLoaded', () => {
+  const savedUsers = getInfo();
+  if (savedUsers){
+    savedUsers.forEach(x =>  {showClientFeedback(x);})
+  }
+})
 
 submitBtn.addEventListener('click', e => {
   e.preventDefault();
@@ -24,13 +30,14 @@ submitBtn.addEventListener('click', e => {
     showLoadingMsg();
     showSuccessMsg();
     clearInputs();
+    showClientFeedback(user);
+    saveInfo(user);
   } else{
     showLoadingMsg();
     showFailedMsg();
     clearInputs();
   }
 })
-
 
 
 const showLoadingMsg = () => {
@@ -50,3 +57,21 @@ const clearInputs = () => {
     emailInput.value = "";
     messageInput.value = "";
 }
+
+const showClientFeedback = item => {
+  let clientInfo = document.createElement('li');
+  clientInfo.textContent = `Name: ${item.name}, Email: ${item.email}, Message: ${item.message}`;
+  clientList.append(clientInfo);
+}
+
+const saveInfo = item => {
+  const existing = getInfo() || [];
+  existing.push(item);
+  localStorage.setItem('client', JSON.stringify(existing))
+}
+
+function getInfo(){
+  return JSON.parse(localStorage.getItem('client'));
+}
+
+
